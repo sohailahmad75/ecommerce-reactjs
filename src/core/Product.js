@@ -15,6 +15,7 @@ import "./../styles/Styles.scss";
 import moment from "moment";
 const Product = (props) => {
   const { user, token } = isAuthenticate();
+  console.log('user', token)
   const [values, setValues] = useState({
     price: "",
     formData: new FormData(),
@@ -97,7 +98,11 @@ const Product = (props) => {
       } else {
         console.log("asdfsdfsfsdffffffffffff");
         setError(true);
-        showMessage("Warning!!", "New bid price must be greater than active bid price.", "warning");
+        showMessage(
+          "Warning!!",
+          "New bid price must be greater than active bid price.",
+          "warning"
+        );
       }
     } else {
       setOpenDialog(true);
@@ -203,26 +208,31 @@ const Product = (props) => {
         <div className="col-md-4 col-sm-12">
           {console.log("productrtttttttttttttttttttttttt", product)}
           <div className="single-image-right">
-            <div className="w-100 d-flex justify-content-between mb-2">
-              <img
-                onClick={() => {
-                  deleteProduct(product._id, product.userId);
-                }}
-                width="30px"
-                height="30px"
-                src="/Images/delete.svg"
-                alt="deleteIcon"
-                style={{ cursor: "pointer" }}
-              />
-              <img
-                onClick={editProduct}
-                width="30px"
-                height="30px"
-                src="/Images/productEdit.svg"
-                alt="editIcon"
-                style={{ cursor: "pointer" }}
-              />
-            </div>
+            {console.log(user)}
+            {
+            product.userId  && (
+              <div className="w-100 d-flex justify-content-between mb-2">
+                <img
+                  onClick={() => {
+                    deleteProduct(product._id, product.userId);
+                  }}
+                  width="30px"
+                  height="30px"
+                  src="/Images/delete.svg"
+                  alt="deleteIcon"
+                  style={{ cursor: "pointer" }}
+                />
+                <img
+                  onClick={editProduct}
+                  width="30px"
+                  height="30px"
+                  src="/Images/productEdit.svg"
+                  alt="editIcon"
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+            )}
+
             <div
               style={{
                 marginBottom: "10px",
@@ -267,7 +277,12 @@ const Product = (props) => {
             >
               Top Bid
               <span
-                style={{ float: "right", color: "#212529", fontSize: "20px", color: "#3f51b5" }}
+                style={{
+                  float: "right",
+                  color: "#212529",
+                  fontSize: "20px",
+                  color: "#3f51b5",
+                }}
               >
                 <span style={{ marginLeft: "auto", fontWeight: "bold" }}>
                   ₨:{" "}
@@ -292,16 +307,16 @@ const Product = (props) => {
               <span style={{ fontWeight: "bold" }}>Contact Number: </span>
               {product.bidUserNumber}
             </div>
-           
-            <div style={{ marginBottom: "10px" }}>
 
-              {moment(Date.now()).isBefore(product.sDate) ? (
+            <div style={{ marginBottom: "10px" }}>
+              {console.log('moment(Date.now()).isBefore(product.eDate)', moment(Date.now()).isBefore(product.eDate))}
+              {(moment(Date.now()).isBefore(product.sDate) || !moment(Date.now()).isBefore(product.eDate)) ? (
                 ""
               ) : (
                 <form onSubmit={clickSubmit} style={{ marginTop: "10px" }}>
-                    <span style={{ fontWeight: "bold" }} className='mb-2'>
-                Place your Bid:
-              </span>
+                  <span style={{ fontWeight: "bold" }} className="mb-2">
+                    Place your Bid:
+                  </span>
                   <div className="form-group">
                     <input
                       type="number"
@@ -312,16 +327,16 @@ const Product = (props) => {
                     />
                   </div>
                   <button
-                type="submit"
-                className="btn btn-warning"
-                style={{
-                  backgroundColor: "rgb(43, 57, 137)",
-                  borderColor: "rgb(63, 81, 181)",
-                  color: "white",
-                }}
-              >
-                Submit
-              </button>
+                    type="submit"
+                    className="btn btn-warning"
+                    style={{
+                      backgroundColor: "rgb(43, 57, 137)",
+                      borderColor: "rgb(63, 81, 181)",
+                      color: "white",
+                    }}
+                  >
+                    Submit
+                  </button>
                 </form>
               )}
             </div>
