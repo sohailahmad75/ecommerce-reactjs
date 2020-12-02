@@ -210,7 +210,7 @@ const Product = (props) => {
           <div className="single-image-right">
             {console.log(user)}
             {
-            product.userId  && (
+            product.userId === user?._id  && (
               <div className="w-100 d-flex justify-content-between mb-2">
                 <img
                   onClick={() => {

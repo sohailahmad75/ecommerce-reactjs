@@ -3,10 +3,18 @@ import Layout from "../core/Layout";
 import "../styles/AddCategory.scss";
 import { isAuthenticate } from "../auth/Index";
 import { getCategories } from "./apiAdmin";
-
+import { cities } from "../pk";
+import Select from "react-select";
+import _ from "lodash"
 const EditProduct = (props) => {
   const product = props?.location?.data?.product;
-  console.log("asdfsdfasfasdfdas", product);
+  const citiesList = cities.map((city) => {
+    return {
+      value: city.city,
+      label: city.city,
+    };
+  });
+  
   const { user, token } = isAuthenticate();
   let [values, setValues] = useState({
     name: "",
@@ -26,6 +34,8 @@ const EditProduct = (props) => {
     sDate: "",
     eDate: "",
   });
+  setValues(product)
+  console.log('0', values)
   let {
     name,
     description,
@@ -46,69 +56,71 @@ const EditProduct = (props) => {
   } = values;
 
   const init = () => {
-    console.log("productproduct", product);
-    getCategories()
-      .then((data) => {
-        console.log("categoriesData", data);
+
+    getCategories().then((data) => {
+      
+      if (data.err) {
+        setValues({ ...values, error: data.err });
+      } else {
+        console.log('data', data)
         setValues({ ...values, categories: data, formData: new FormData() });
-        // if (product) {
-        //     name= product.name;
-        //     description= product.description;
-        //     price= product.price;
-        //     photo= '';
-        //     location= product.location;
-        //     sDate= product.sDate.split('T')[0];
-        //     eDate= product.eDate.split('T')[0]
-        // }
-      })
-      .catch((err) => {
-        alert(err);
-      });
-    console.log("asdfsdfasfasdfdas", product);
+      }
+    });
   };
 
   useEffect(() => {
     init();
   }, []);
-  // const handleChange = name => event => {
-  //   const value = name === 'photo'? event.target.files[0] : event.target.value
-  //   if (name === 'price') {
-  //     console.log('pppppppppppppppp', value)
-  //     formData.set('bidPrice', value)
-  //   }
-  //   if (name === 'sDate' || name === 'eDate') {
-  //     formData.set(name , value + 'T00:00')
-  //   }
-  //   else {
-  //     formData.set(name, value)
-  //   }
-  //   console.log('name', name)
-  //   console.log('value', value)
-  //   // const value = event.target.value;
-  //   // console.log('old file', event.target.files[0])
-  //
-  //   setValues({...values, [name] : value})
-  //   console.log('valuesssssssssssss', values)
-  // };
+  const handleChange = (name) => (event) => {
+    
+    console.log('formData', formData)
+  console.log("🚀 ~ file: EditProduct.js ~ line 83 ~ handleChange ~ name", name)
+  console.log("🚀 ~ file: EditProduct.js ~ line 83 ~ handleChange ~ event", event)
+    const value =
+      name === "photo"
+        ? event.target.files[0]
+        : event?.target?.value;
+
+    if (name === "location") {
+      formData.set("location", value);
+    } else if (name === "price") {
+      
+      formData.set("bidPrice", value);
+      formData.set("price", value);
+    } else if (name === "sDate") {
+      formData.set(name, value + "T00:00");
+    } else if (name === "eDate") {
+      formData.set(name, value + "T24:00");
+    } else {
+      formData.set(name, value);
+    }
+    
+    
+    // const value = event.target.value;
+    // 
+
+    setValues({ ...values, [name]: value });
+    
+  };
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    console.log("valuesssssssss", values);
-    // formData.set('userId', user._id)
-    // formData.set('bidUserID', user._id)
-    // formData.set('bidUserName', user.name)
-    // formData.set('bidUserNumber', user.number)
-    // setValues({...values, error: '', loading: true})
+    
+    formData.set('userId', user._id)
+    formData.set('bidUserID', user._id)
+    formData.set('bidUserName', user.name)
+    formData.set('bidUserNumber', user.number)
+    setValues({...values, error: '', loading: true})
     // addProduct(user._id, token, formData)
-    // .then(data => {
-    //   console.log('data', data)
-    //   // if (data.error) {
-    //   //   setValues({...values, error: data.error})
-    //   // }
-    //     setValues({...values, name: '', description: '', price: '', category: '', quantity: '', shipping: '' , location: '', loading: false, createdProduct: data.name})
-    //
-    // })
-    // .catch()
+    .then(data => {
+      
+      // if (data.error) {
+      //   setValues({...values, error: data.error})
+      // }
+        setValues({...values, name: '', description: '', price: '', category: '', quantity: '', shipping: '' , location: '', loading: false, createdProduct: data.name})
+    
+    })
+    .catch()
   };
   // const showError = () => {
   //   error && <h3 className='text-danger' style={{textAlign: 'center', display: error ? '' : "none"}}>{error}</h3>
@@ -120,7 +132,12 @@ const EditProduct = (props) => {
   // const showLoading = () => {
   //   loading && <h3 className='text-success' style={{textAlign: 'center'}}>loading...</h3>
   //  }
-
+  const defaultLocation = {
+    value : location,
+    label : location
+  }
+  sDate = sDate.split("T", 1)[0]
+  eDate = eDate.split("T", 1)[0]
   return (
     <Layout
       title="Add Product"
@@ -134,6 +151,7 @@ const EditProduct = (props) => {
             style={{ margin: "25px auto" }}
           >
             {/* {showError}
+
             {showSuccess()}
             {showLoading()} */}
             <form onSubmit={clickSubmit}>
@@ -143,7 +161,7 @@ const EditProduct = (props) => {
                   type="file"
                   name="photo"
                   accept="image/*"
-                  // onChange={handleChange('photo')}
+                  onChange={handleChange('photo')}
                   style={{ display: "block" }}
                   required
                 />
@@ -152,7 +170,7 @@ const EditProduct = (props) => {
                 <label className="text-muted">Product Name</label>
                 <input
                   type="text"
-                  // onChange={handleChange('name')}
+                  onChange={handleChange('name')}
                   className="form-control"
                   value={name}
                   required
@@ -162,7 +180,7 @@ const EditProduct = (props) => {
                 <label className="text-muted">Product Description</label>
                 <textarea
                   type="text"
-                  // onChange={handleChange('description')}
+                  onChange={handleChange('description')}
                   className="form-control"
                   value={description}
                   required
@@ -170,10 +188,9 @@ const EditProduct = (props) => {
               </div>
               <div className="form-group">
                 <label className="text-muted">Product Category</label>
-                {console.log("categories", categories)}
                 <select
                   className="form-control"
-                  // onChange={handleChange('category')}
+                  onChange={handleChange('category')}
                   required
                 >
                   <option>Please Select Category</option>
@@ -189,7 +206,7 @@ const EditProduct = (props) => {
                 <label className="text-muted">Product Price</label>
                 <input
                   type="number"
-                  // onChange={handleChange('price')}
+                  onChange={handleChange('price')}
                   className="form-control"
                   value={price}
                   required
@@ -217,7 +234,7 @@ const EditProduct = (props) => {
                 <label className="text-muted mr-1">Bid Start Date:</label>
                 <input
                   type="date"
-                  // onChange={handleChange('sDate')}
+                  onChange={handleChange('sDate')}
                   value={sDate}
                   required
                   className="form-date"
@@ -230,7 +247,7 @@ const EditProduct = (props) => {
                       value={eDate}
                       required
                       min={sDate}
-                      // onChange={handleChange('eDate')}
+                      onChange={handleChange('eDate')}
                       className="form-date"
                     />
                   </span>
@@ -238,13 +255,21 @@ const EditProduct = (props) => {
               </div>
               <div className="form-group">
                 <label className="text-muted">Location</label>
-                <input
+                <Select
+                  className="basic-single"
+                  classNamePrefix="select"
+                  defaultValue={defaultLocation}
+                  onChange={handleChange("location")}
+                  name="color"
+                  options={citiesList}
+                />
+                {/* <input
                   type="text"
                   // onChange={handleChange('location')}
                   className="form-control"
                   value={location}
                   required
-                />
+                /> */}
               </div>
 
               <button

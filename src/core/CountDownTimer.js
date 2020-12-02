@@ -22,18 +22,18 @@ function Counter({sDate, eDate}) {
   let mydate = 0;
   let startDate = Date.parse(sDate)
   let endDate = Date.parse(eDate)
-  console.log("startDate", startDate)
-  console.log("endDate", endDate)
-  console.log("Date.now()", startDate - Date.now() )
-  console.log("moment(startDate).isBefore(Date.now()", moment(Date.now()).isBefore(startDate))
+  
+  
+  
+  
 //   if (startDate-Date.now() > 0 ) {
 //     mydate = Math.abs(startDate - Date.now());
 //   }
 //   else {
 //     mydate = endDate;
 //   }
-//   console.log("mydate", mydate)
-// // console.log(moment(c).seconds())
+//   
+// // 
   return (
     <div className="App">
       {moment(Date.now()).isBefore(startDate) ?

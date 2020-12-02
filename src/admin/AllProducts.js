@@ -13,7 +13,7 @@ const AllProducts = (props) => {
     });
   };
   const deletProduct = (prodtctId) => {
-    console.log("userId", prodtctId);
+    
     removeProduct(prodtctId)
         .then((res) => {
           if (res.error) {

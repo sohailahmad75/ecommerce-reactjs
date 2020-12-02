@@ -13,7 +13,7 @@ const AllUsers = (props) => {
     });
   };
   const deleteUser = (userId) => {
-    console.log("userId", userId);
+    
     if (user._id === userId) {
       showMessage("Error!!", "Admin Can't Delete It's own account", "danger");
     } else {

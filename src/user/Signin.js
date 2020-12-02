@@ -64,11 +64,11 @@ export default function SignIn() {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signIn({ email, password }).then((data) => {
-      console.log(data)
+      
       if (data.err) {
         setValues({ ...values, error: data.err, loading: false });
         showMessage("Error!!", data.err , "danger");
-        console.log(data.err);
+        
       } else {
         authenticate(data, () => {
           showMessage("Success", "Login Successfully", "success");

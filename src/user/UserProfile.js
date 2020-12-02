@@ -38,12 +38,12 @@ const Profile = ({ match }) => {
     
   });
   // const [profileImage , setProfileImage] = useState()
-  console.log("isAuthenticate();", isAuthenticate());
+  
   const { token, user } = isAuthenticate();
   const { name, email, password,  newPassword, confirmPassword, error, success, formData} = values;
 
   const init = (userId) => {
-    // console.log(userId);
+    // 
     read(userId, token).then((data) => {
       if (data.error) {
         setValues({ ...values, error: true });
@@ -62,22 +62,22 @@ const Profile = ({ match }) => {
     
     if ( name === 'photo' ) {
         formData.append(name, e.target.files[0]);
-        console.log('user._id',user._id)
-        console.log('token',token)
+        
+        
         addProfileImage(user._id, token, formData) 
         .then (res=> {
           if (res.error) {
             showMessage("Error!!", res.error , "danger");
           }
           else {
-            console.log('res', res)
+            
             showMessage("Success", "Profile Updated Successfully", "success");
           }
          
          
         })
         .catch(err=> {
-            console.log('err', err)
+            
         })
     } else {
         setValues({ ...values, error: false, [name]: e.target.value });
@@ -86,13 +86,13 @@ const Profile = ({ match }) => {
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    console.log("data");
+    
     if (newPassword === confirmPassword) {
       update(match.params.userId, token, { name, email, password, newPassword, confirmPassword }).then(
         (data) => {
-          console.log(data);
+          
           if (data.error) {
-            // console.log(data.error);
+            // 
             showMessage("Error!!", data.error , "danger");
           } else {
             updateUser(data, () => {
@@ -128,7 +128,7 @@ const Profile = ({ match }) => {
     },
   }))(Avatar);
   const onEditClicked = () => {
-    console.log('profileImage')
+    
     document.getElementById('fileButton').click();
   };
   const profileUpdate = (name, email, password, newPassword, confirmPassword) => (

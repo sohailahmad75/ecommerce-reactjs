@@ -16,7 +16,7 @@ export const read = (userId, token) => {
 };
 
 export const addProfileImage = (userId, token, pofileImage) => {
-    console.log('product', pofileImage)
+    
     return fetch(`${API}/user/profile/${userId}` , {
       method: 'PUT',
       headers : {
@@ -60,7 +60,7 @@ export const updateUser = (user, next) => {
     }
 };
 export const addBid = (userId, token, bidData) => {
-    console.log('bidData', bidData)
+    
     return fetch(`${API}/updateBid/${userId}` , {
       method: 'PUT',
       headers : {

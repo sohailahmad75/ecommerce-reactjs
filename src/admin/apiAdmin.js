@@ -17,7 +17,7 @@ export const addCategories = (userId, token, category) => {
       })
 }
 export const addProduct = (userId, token, product) => {
-  console.log('product', product)
+  
   return fetch(`${API}/product/create/${userId}` , {
     method: 'POST',
     headers : {

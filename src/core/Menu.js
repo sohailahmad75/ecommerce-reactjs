@@ -21,7 +21,7 @@ const theme = createMuiTheme({
     secondary: indigo,
   },
 });
-console.log('isAuthenticate', isAuthenticate())
+
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
       return { color: "rgb(255, 255, 255)" };

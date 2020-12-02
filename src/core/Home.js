@@ -33,7 +33,7 @@ const Home = () => {
 
   const loadProductsByArrival = () => {
     getProducts("createdAt").then((data) => {
-      console.log(data);
+      
       if (data.error) {
         setError(data.error);
       } else {
@@ -51,8 +51,6 @@ const Home = () => {
   return (
     <Layout title="Home" description="Home Component here ">
       <MuiThemeProvider theme={theme}>
-        {console.log("productsByPrice", productsByPrice)}
-        {console.log("productsByArrival", productsByArrival)}
         <Search />
         <div className="container">
           <div>
@@ -75,7 +73,6 @@ const Home = () => {
 
           {!loading && (
             <div className="cardsDiv">
-              {console.log('productsByArrivaldataaaaaaaaaaaaaa', productsByArrival)}
               {productsByArrival.map((product, i) => (
                 <CardComponent key={i} product={product} />
               ))}
