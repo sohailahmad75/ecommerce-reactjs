@@ -13,15 +13,15 @@ const Search = () => {
   const { categories, category, search, results, searched } = data;
   const loadCategories = () => {
     getCategories().then((data) => {
-      if (data.error) {
-        console.log(data.error);
+      if (data?.error) {
+        console.log(data?.error);
       } else {
         setData({ ...data, categories: data });
       }
     });
   };
   const searchData = () => {
-      
+
       if (search) {
           list({ search: search || undefined, category: category }).then(
               response => {

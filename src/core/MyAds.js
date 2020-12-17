@@ -59,9 +59,9 @@ const MyAds = () => {
               // />
             )}
           </div>
-          {filteredResults.length < 1 && <div>No products found</div>}
+          {filteredResults?.length < 1 && <div>No products found</div>}
           <div className="cardsDiv">
-            {filteredResults.map((product, i) => (
+            {filteredResults?.map((product, i) => (
               <CardComponent key={i} product={product} />
             ))}
           </div>

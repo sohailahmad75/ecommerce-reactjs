@@ -22,8 +22,8 @@ const Home = () => {
 
   const loadProductsBySell = () => {
     getProducts("price").then((data) => {
-      if (data.error) {
-        setError(data.error);
+      if (data?.error) {
+        setError(data?.error);
       } else {
         setproductsByPrice(data);
       }
@@ -33,9 +33,9 @@ const Home = () => {
 
   const loadProductsByArrival = () => {
     getProducts("createdAt").then((data) => {
-      
-      if (data.error) {
-        setError(data.error);
+
+      if (data?.error) {
+        setError(data?.error);
       } else {
         setProductsByArrival(data);
       }
