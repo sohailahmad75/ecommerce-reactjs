@@ -1,59 +1,68 @@
-export const singUp = user => {
-  return fetch("http://localhost:8080/signup", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
+export const signUp = user => {
+  return fetch(`/api/signup` , {
+    method: 'POST',
+    headers : {
+      Accept : 'application/json',
+      'Content-Type' : 'application/json'
     },
-    body: JSON.stringify(user)
+    body : JSON.stringify(user)
   })
     .then(response => {
       return response.json();
     })
-    .catch(err => console.log(err));
-};
+    .catch(err => {
+      console.log(err)
+    })
+}
 
 export const signIn = user => {
-  return fetch("http://localhost:8080/signin", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
+  return fetch(`/api/signin` , {
+    method: 'POST',
+    headers : {
+      Accept : 'application/json',
+      'Content-Type' : 'application/json'
     },
-    body: JSON.stringify(user)
+    body : JSON.stringify(user)
   })
     .then(response => {
       return response.json();
     })
-    .catch(err => console.log(err));
-};
-//signin Authentication
-export const authenticate = (jwt, next) => {
-  if (typeof window !== "undefined") {
-    localStorage.setItem("Jwt", JSON.stringify(jwt));
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+export const authenticate = (data, next) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('jwt', JSON.stringify(data))
     next();
   }
-};
+}
 
-export const SignOut = next => {
-  if (typeof window !== "undefined") localStorage.removeItem("Jwt");
-  next();
-  return fetch("http://localhost:8080/signout", {
-    method: "GET"
-  })
-    .then(response => {
-      console.log("signout", response);
-      return response.json();
+export const signOut = (next) => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('jwt')
+    next();
+    return fetch(`/api/signout` , {
+      method: 'GET'
     })
-    .catch(err => console.log(err));
-};
-
-export const isAuthenticated = () => {
-  if (typeof window !== "undefined") {
-    if (localStorage.getItem("Jwt")) {
-      return JSON.parse(localStorage.getItem("Jwt"));
-    } else {
-      return false;
-    }
+      .then(response => {
+        
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
-};
+}
+
+export const isAuthenticate = () => {
+  if (typeof window == 'undefined') {
+    return false;
+  }
+    if (localStorage.getItem('jwt')) {
+      return JSON.parse(localStorage.getItem('jwt'))
+    }
+    else {
+      return false;
+  }
+}

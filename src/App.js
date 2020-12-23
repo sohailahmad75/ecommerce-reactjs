@@ -1,10 +1,6 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import MainRouter from "./MainRouter";
-const App = () => (
-  <BrowserRouter>
-    <MainRouter />
-  </BrowserRouter>
-);
+import React from 'react';
+
+
+const App = () => (<div>Hello from react</div>);
 
 export default App;
